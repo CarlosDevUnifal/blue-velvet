@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Product List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-3">
+    <div class="table-responsive">
+        <table class="table table-striped" id="productTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Artist Name</th>
+                <th>Price</th>
+                <th>Music List</th>
+                <th>Photo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.artist_name}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.music_list}"></td>
+                <td>
+                    <img th:src="@{|${product.photo}|}" alt="product image" style="width:100px;height:100px;">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            searching: false,
+            lengthChange: false,
+            columnDefs: [{
+                targets: 0,
+                searchable: true,
+                orderable: true,
+                visible: true
+            }, {
+                targets: '_all',
+                searchable: false,
+                orderable: false,
+                visible: true
+            }]
+        });
+        $('#productTable thead tr:eq(1) th').each(function (i) {
+            var title = $(this).text();
+            $(this).html('<span class="mx-2">' + title + '</span>');
+        });
+    });
+</script>
